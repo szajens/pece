@@ -25,7 +25,7 @@ class App extends BaseConfig
      *
      * @var string|array
      */
-    public $peceAllowedDomains = ['example.com', 'ci.loc', 'localhost'];
+    public $peceAllowedDomains = ['example.com', 'ci.loc', 'localhost', 'localhost:8080'];
 
     /**
      * ---------------------------------------------------------------

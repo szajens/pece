@@ -5,8 +5,7 @@ use CodeIgniter\Exceptions\ConfigException;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\Router\Router;
-
-
+use Pece\Config\App;
 
 /**
  * PECE Routing
@@ -23,6 +22,7 @@ class PeceRouter{
     private IncomingRequest $request;
     private array $filteredDomain = [];
     private array $outHost = [];
+    private App $config;
 
     private string $defaultMessage = 'Please correct the Pece library configuration in file: "'.APPPATH.'Config'.DIRECTORY_SEPARATOR.'App.php"';
 
@@ -30,6 +30,7 @@ class PeceRouter{
     public function __construct(Router $router, IncomingRequest $request){
         $this->router = $router;
         $this->request = $request;
+        $this->config = new App();
 
         $this->runFilter();
     }
@@ -78,7 +79,7 @@ class PeceRouter{
 
     private function runFilter(){
 
-        $filtered = $this->domainFilter($this->getAllowedDomains(), $this->request->getServer('HTTP_HOST'));
+        $filtered = $this->domainFilter($this->getAllowedDomains(), $this->request->getServer('HTTP_HOST') ?? 'localhost:8080');
 
         if($filtered['matches'] == 0){//if not allowed, show 404
             $this->error404();
@@ -124,7 +125,7 @@ class PeceRouter{
      */
     private function setInConfigApp(string $host){
 
-        $this->request->config->baseURL = $host;
+        $this->config->baseURL = $host;
 
     }
 
@@ -390,7 +391,7 @@ class PeceRouter{
      */
     private function getAllowedDomains():array {//get options from app config
 
-        $peceAllowedDomains = $this->request->config->peceAllowedDomains ?? null;
+        $peceAllowedDomains = $this->config->peceAllowedDomains ?? null;
 
         if(is_array($peceAllowedDomains)){//if from config file
             return $peceAllowedDomains;
@@ -437,7 +438,7 @@ class PeceRouter{
      * @return bool|null true - only https, false - only http, null - no limiting
      */
     private function getDefaultSSL():?bool {//get options from app config
-        $defaultSSL = $this->request->config->peceDefaultSSL ?? null;
+        $defaultSSL = $this->config->peceDefaultSSL ?? null;
         if(is_bool($defaultSSL)){
             return $defaultSSL;
         } else {
