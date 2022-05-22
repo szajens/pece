@@ -1,0 +1,17 @@
+{
+    "name": "szajens/pece",
+    "description": "Pece routing for Codeigniter 4 - This library modifies the host for the URL helper and URI Service",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Pece\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Szajens"
+        }
+    ],
+    "require": {}
+}
