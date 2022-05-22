@@ -79,72 +79,7 @@ getScheme(): - request scheme e.g. 'https://' or 'http://'
 
 ## Instalation:
 
-- Copy Pece Library to `app/Libraries/Pece.php` 
-
-- Add to app config file `(app/Config/App.php)`:
-
+- Composer
 ```
-/**
-* ---------------------------------------------------------------
-* Allowed Domain in Pece Routing
-* ---------------------------------------------------------------
-*
-* Allowed values:
-*
-*  Array: ['example.com', 'sub.example.net', 'example.co.uk']
-*
-* or
-*
-*  Path to Class if you want dynamic return from other, e.g. database
-*
-*  String: '\Namespace\To\Class::returnArray'
-*
-* @var string|array
-*/
-public $peceAllowedDomains = ['ci.loc', 'localhost'];
-
-/**
- * ---------------------------------------------------------------
- * Default limiting to scheme Pece Routing
- * ---------------------------------------------------------------
- *
- * true - only https
- * false - only http
- * null - no limiting
- *
- * @var ?bool
- */
-public $peceDefaultSSL = null;
-```
-
-
-
-- Add to app Services `(app/Config/Services.php)`:
-
-```
-use App\Libraries\Pece;
-use CodeIgniter\HTTP\IncomingRequest;
-use CodeIgniter\Router\Router;
-
-class Services extends BaseService
-{
-    public static function pece(?Router $router = null, ?IncomingRequest $request = null, $getShared = true){
-
-        if ($getShared) {
-            return static::getSharedInstance('pece', $router, $request);
-        }
-
-        $router ??= Services::router();
-        $request ??= Services::request();
-
-        return new Pece($router, $request);
-    }
-
-
-}
-```
-
-- Add to app Events `(app/Config/Events.php)`:
-```
-Events::on('post_controller_constructor', '\Config\Services::pece'); //or baseController
+composer require szajens/pece
 ```
