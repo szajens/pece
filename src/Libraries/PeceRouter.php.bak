@@ -125,7 +125,7 @@ class PeceRouter{
      */
     private function setInConfigApp(string $host){
 
-        $this->request->config->baseURL = $host;
+        $this->config->baseURL = $host;
 
     }
 
